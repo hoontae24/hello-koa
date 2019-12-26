@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --exec babel-node src/index.js"
+    "dev": "cross-env NODE_PATH=src nodemon --exec babel-node src/index.js"
   },
   "keywords": [],
   "author": "",
@@ -13,8 +13,12 @@
     "@babel/core": "^7.7.5",
     "@babel/node": "^7.7.4",
     "@babel/preset-env": "^7.7.6",
+    "cross-env": "^6.0.3",
     "dotenv": "^8.2.0",
-    "koa": "^2.11.0"
+    "koa": "^2.11.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
+    "mongoose": "^5.8.1"
   },
   "devDependencies": {
     "eslint": "^6.7.2",

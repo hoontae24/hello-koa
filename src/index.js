@@ -1,34 +1,37 @@
 // Import package
-import Koa from 'koa'
-import dotenv from 'dotenv'
-import mongoose from 'mongoose'
-import bodyParser from 'koa-bodyparser'
+import Koa from "koa";
+import dotenv from "dotenv";
+import mongoose from "mongoose";
+import bodyParser from "koa-bodyparser";
 
 // Import local modules
-import router from 'routes'
+import router from "routes";
+import { tokenizer } from "./lib/token";
 
-dotenv.config()
+dotenv.config();
 
 // Connect Database
-mongoose.Promise = global.Promise
+mongoose.Promise = global.Promise;
 mongoose
   .connect(process.env.MONGO_URI, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
+    useFindAndModify: true,
   })
-  .then(() => console.log('Successfully connected to mongoDB'))
-  .catch(e => console.error(e))
+  .then(() => console.log("Successfully connected to mongoDB"))
+  .catch(e => console.error(e));
 
 // Initialize configuration variables
-const PORT = process.env.PORT || 4000
+const PORT = process.env.PORT || 4000;
 
 // Declare App variables
-const app = new Koa()
+const app = new Koa();
 
 // Apply App Middlewares
-app.use(bodyParser())
+app.use(bodyParser());
+app.use(tokenizer);
 
 // Routes Middlewares
-app.use(router.routes()).use(router.allowedMethods())
+app.use(router.routes()).use(router.allowedMethods());
 
-app.listen(PORT, () => console.log(`\nServer is listening on Port ${PORT}.`))
+app.listen(PORT, () => console.log(`\nServer is listening on Port ${PORT}.`));

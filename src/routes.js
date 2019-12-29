@@ -1,16 +1,14 @@
-import Router from 'koa-router'
-import controller from 'handlers'
-import book from 'handlers/book'
+import Router from "koa-router";
+import api, { auth } from "handlers";
 
-const router = new Router()
+const router = new Router();
 
-router.get('/', controller.index)
+router.get("/", api.index);
 
-router.get('/book', book.list)
-router.get('/book/:id', book.retrieve)
-router.post('/book', book.create)
-router.put('/book/:id', book.replace)
-router.patch('/book/:id', book.update)
-router.delete('/book/:id', book.destroy)
+router.post("/auth/register/local", auth.localRegister);
+router.post("/auth/login/local", auth.localLogin);
+router.get("/auth/exists/:key(email|username)/:value", auth.exists);
+router.post("/auth/logout", auth.logout);
+router.get("/auth/check", auth.check);
 
-export default router
+export default new Router().use("/api", router.routes());
